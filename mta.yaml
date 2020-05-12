@@ -1,0 +1,31 @@
+ID: TISABOT
+_schema-version: '2.1'
+description: TISA BOT Interceptor
+version: 0.0.1
+modules:
+  - name: interceptor
+    type: nodejs
+    path: interceptor
+    provides:
+      - name: interceptor_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: interceptor-usaa
+      - name: Tisa-connectivity
+      - name: Tisa-Destination
+resources:
+  - name: interceptor-usaa
+    type: com.sap.xs.uaa-space
+    parameters:
+      path: ./xs-security.json
+  - name: Tisa-connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: lite
+      service: connectivity
+  - name: Tisa-Destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
