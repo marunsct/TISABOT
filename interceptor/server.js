@@ -191,7 +191,7 @@ app.post("/SalesorderCreate", (req, res) => {
 					Message: "",
 					// PartnRole: "",
 					PartnNumb: memory.customer.raw,
-					ItmNumber: "",
+					//ItmNumber: "",
 					Material: memory.material.raw,
 					TargetQty: memory.quantity.raw
 				}
