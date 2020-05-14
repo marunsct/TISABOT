@@ -201,7 +201,7 @@ app.post("/SalesorderCreate", (req, res) => {
 
 			oDataRequest.calloData(optionsJS7).then(resp => {
 
-				caiOperations.formatReply(memory, 'createso', JSON.parse(resp.body)).then(reply => {
+				caiOperations.formatReply(memory, 'createso', resp.body).then(reply => {
 
 					var response = JSON.stringify({
 						replies: reply,

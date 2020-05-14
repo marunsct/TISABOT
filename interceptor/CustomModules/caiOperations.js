@@ -53,15 +53,27 @@ module.exports = {
 
 				if (process === 'createso') {
 
-					replyCon = 'Sales Order: ' + oData.d.Salesdocument + ' is created '; //+ ' for the product ' + memory.product.raw + ' and Quantity ' + memory.quantity.raw;
-					reply = [{
-						type: 'text',
-						content: replyCon
-					}, {
-						type: 'text',
-						content: oData.d.Message
-					}];
-
+					if (oData.d.Type === "S") {
+						memory.SO = oData.d.Salesdocument;
+						memory.check_so = true;
+						replyCon = 'Sales Order: ' + oData.d.Salesdocument + ' is created Sucessfully'; //+ ' for the product ' + memory.product.raw + ' and Quantity ' + memory.quantity.raw;
+						reply = [{
+							type: 'text',
+							content: replyCon
+						}, {
+							type: 'text',
+							content: oData.d.Message
+						}];
+					} else if (oData.d.Type === "E"){
+						
+						memory.TISA = true;
+						
+						reply = [{
+							type: 'text',
+							content: oData.d.Message
+						}];
+						
+					}
 				} else if (process === 'displayso') {
 					//                   console.log("hiiii" + typeof(oData));
 					var msg = oData.d.Message;
@@ -114,7 +126,7 @@ module.exports = {
 	}
 };
 
-const getstats = (stat, pro) =>{
+const getstats = (stat, pro) => {
 
 	if (stat === "A") {
 		return "Not yet processed";
