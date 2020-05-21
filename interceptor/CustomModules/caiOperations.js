@@ -64,15 +64,29 @@ module.exports = {
 							type: 'text',
 							content: oData.d.Message
 						}];
-					} else if (oData.d.Type === "E"){
-						
-						memory.TISA = true;
-						
+					} else if (oData.d.Type === "E") {
+
+						memory.ITSM = true;
+
 						reply = [{
 							type: 'text',
 							content: oData.d.Message
+						}, {
+							type: "quickReplies",
+							content: {
+								title: "Do you want create Ticket in ServicenNow?",
+								buttons: [{
+									value: "Yes",
+									title: "Yes"
+								}, {
+									value: "No",
+									title: "No"
+								}]
+							},
+							markdown: null,
+							delay: null
 						}];
-						
+
 					}
 				} else if (process === 'displayso') {
 					//                   console.log("hiiii" + typeof(oData));

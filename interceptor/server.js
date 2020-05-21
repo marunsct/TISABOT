@@ -56,7 +56,7 @@ app.post('/SalesorderStatus', function (req, res) {
 		pport = value[1].pport;
 
 		var optionsJS7 = {
-			url: sDestination.URL + sEndpoint + "SALES_ORDERSet('" + memory.so.raw + "')",
+			url: sDestination.URL + sEndpoint + "SALES_ORDERSet('" + memory.SO.raw + "')",
 			proxy: "http://" + phost + ':' + pport,
 			method: 'GET',
 			headers: {
@@ -190,7 +190,7 @@ app.post("/SalesorderCreate", (req, res) => {
 					Type: "",
 					Message: "",
 					// PartnRole: "",
-					PartnNumb: memory.customer.raw,
+					PartnNumb: memory.soldto.raw,
 					//ItmNumber: "",
 					Material: memory.material.raw,
 					TargetQty: memory.quantity.raw
@@ -221,6 +221,38 @@ app.post("/SalesorderCreate", (req, res) => {
 		});
 
 	});
+});
+
+app.post("/ITSM", (req, res) => {
+
+	var memory = req.body.conversation.memory;
+	var oOptions = config.options;
+
+	var oBody = {
+		short_description: "Incident created from chatbot"
+	};
+	oOptions.method = "POST";
+	oOptions.json = oBody;
+
+	oDataRequest.calloData(oOptions).then(body => {
+
+		console.log(body.body.result.number);
+		var reply = [{
+			type: 'text',
+			content: "Incident " + body.body.result.number + " is Created in the Service Now Tool"
+		}];
+		var response = JSON.stringify({
+			replies: reply,
+			conversation: {
+				memory: memory
+			}
+		});
+		res.statusCode = 200;
+		res.setHeader('content-type', 'application/json');
+		res.send(response);
+
+	});
+
 });
 
 app.listen(app.get('port'), function () {
