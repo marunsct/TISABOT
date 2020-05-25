@@ -115,7 +115,7 @@ module.exports = {
 								", Sold to : " + value.PartnNumb + ", Material: " + value.Material + ", Quantity : " + value.TargetQty,
 							"buttons": [{
 								"value": value.Salesdocument,
-								"title": "Status",
+								"title": "Status of Sales order :" + value.Salesdocument ,
 								"type": "postback"
 							}]
 						};
