@@ -70,7 +70,7 @@ module.exports = {
 
 						reply = [{
 							type: 'text',
-							content: oData.d.Message
+							content: "Sales order Creation Failed"
 						}, {
 							type: "quickReplies",
 							content: {
@@ -115,7 +115,7 @@ module.exports = {
 								", Sold to : " + value.PartnNumb + ", Material: " + value.Material + ", Quantity : " + value.TargetQty,
 							"buttons": [{
 								"value": value.Salesdocument,
-								"title": "Status of Sales order :" + value.Salesdocument ,
+								"title": "Status of Sales order : " + value.Salesdocument ,
 								"type": "postback"
 							}]
 						};
