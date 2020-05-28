@@ -1,3 +1,23 @@
+const getstats = (stat, pro) => {
+
+	if (stat === "A") {
+		return "Not yet processed";
+	} else if (stat === "B") {
+		if (pro === 'D') {
+			return "Partially Delivered";
+		}
+		return "Partially processed";
+	} else if (stat === "C") {
+		if (pro === 'D') {
+			return "Fully Delivered";
+		}
+		return "Completely processed";
+	} else if (stat === " ") {
+		return "Not Relevant";
+	}
+
+};
+
 module.exports = {
 
 	getFilters: (memory) => {
@@ -115,7 +135,7 @@ module.exports = {
 								", Sold to : " + value.PartnNumb + ", Material: " + value.Material + ", Quantity : " + value.TargetQty,
 							"buttons": [{
 								"value": value.Salesdocument,
-								"title": "Status of Sales order : " + value.Salesdocument ,
+								"title": "Status of Sales order : " + value.Salesdocument,
 								"type": "postback"
 							}]
 						};
@@ -138,24 +158,4 @@ module.exports = {
 		});
 
 	}
-};
-
-const getstats = (stat, pro) => {
-
-	if (stat === "A") {
-		return "Not yet processed";
-	} else if (stat === "B") {
-		if (pro === 'D') {
-			return "Partially Delivered";
-		}
-		return "Partially processed";
-	} else if (stat === "C") {
-		if (pro === 'D') {
-			return "Fully Delivered";
-		}
-		return "Completely processed";
-	} else if (stat === " ") {
-		return "Not Relevant";
-	}
-
 };
