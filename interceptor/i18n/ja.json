@@ -1,0 +1,23 @@
+{
+	"title": "よろしくおねがい",
+	"error": "駄目",
+	"incident": "Incident %s is Created in the Service Now Tool",
+	"inc_desc": "Incident created from chatbot",
+	"stat_np": "Not yet processed",
+	"stap_pd": "Partially Delivered",
+	"stat_pp": "Partially processed",
+	"stat_fd": "Fully Delivered",
+	"stat_cp": "Completely processed",
+	"stat_nr": "Not Relevant",
+	"so_create": "Sales Order: %s is created Sucessfully",
+	"so_emsg": "Sales order Creation Failed",
+	"s_now": "Do you want create Ticket in ServicenNow?",
+	"so_no": "Sales Order Number: %s.",
+	"status": "Overall status : ",
+	"d_status": "Delivery status : ",
+	"so": "Sales order",
+	"soldto": "Sold to",
+	"material": "Material",
+	"qty": "Quantity",
+	"so_status" : "Status of Sales order : %s" 
+}

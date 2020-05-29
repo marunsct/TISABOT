@@ -1,5 +1,5 @@
 const getstats = (stat, pro) => {
-
+//i18n__()
 	if (stat === "A") {
 		return "Not yet processed";
 	} else if (stat === "B") {
@@ -62,7 +62,7 @@ module.exports = {
 
 	},
 
-	formatReply: (memory, process, oData) => {
+	formatReply: (memory, process, oData, i18n) => {
 
 		return new Promise((resolve, reject) => {
 
@@ -76,7 +76,7 @@ module.exports = {
 					if (oData.d.Type === "S") {
 						memory.SO = oData.d.Salesdocument;
 						memory.check_so = true;
-						replyCon = 'Sales Order: ' + oData.d.Salesdocument + ' is created Sucessfully'; //+ ' for the product ' + memory.product.raw + ' and Quantity ' + memory.quantity.raw;
+						replyCon =  i18n.__("so_create", oData.d.Salesdocument);     //'Sales Order: ' + oData.d.Salesdocument + ' is created Sucessfully'; //+ ' for the product ' + memory.product.raw + ' and Quantity ' + memory.quantity.raw;
 						reply = [{
 							type: 'text',
 							content: replyCon
@@ -90,11 +90,11 @@ module.exports = {
 
 						reply = [{
 							type: 'text',
-							content: "Sales order Creation Failed"
+							content: i18n.__("so_emsg")  //"Sales order Creation Failed"
 						}, {
 							type: "quickReplies",
 							content: {
-								title: "Do you want create Ticket in ServicenNow?",
+								title: i18n.__("s_now"), //"Do you want create Ticket in ServicenNow?",
 								buttons: [{
 									value: "Yes",
 									title: "Yes"
@@ -114,9 +114,9 @@ module.exports = {
 					//console.log(msg);
 					var status = msg.split(':');
 					//console.log(status);
-					replyCon = 'Sales Order Number: ' + oData.d.Salesdocument + '.'; //+ ' for the product ' + memory.product.raw + ' and Quantity ' + memory.quantity.raw;
-					replyCon = replyCon + '\nOverall status: ' + getstats(status[0], 'O');
-					replyCon = replyCon + '. \nDelivery status: ' + getstats(status[1], 'D');
+					replyCon =  i18n.__("so_no", oData.d.Salesdocument)  ; //'Sales Order Number: ' + oData.d.Salesdocument + '.'; //+ ' for the product ' + memory.product.raw + ' and Quantity ' + memory.quantity.raw;
+					replyCon = replyCon + i18n.__("status") + getstats(status[0], 'O');
+					replyCon = replyCon + i18n.__("d_status") + getstats(status[1], 'D');
 					reply = [{
 						type: 'text',
 						content: replyCon
@@ -128,14 +128,14 @@ module.exports = {
 					results.forEach(function (value, index) {
 						//                       console.log(value)
 						conv[index] = {
-							"title": "SO : " + value.Salesdocument,
+							"title": i18n.__("so", value.Salesdocument) ,//"SO : " + value.Salesdocument,
 							"subtitle":
 							//"Date : " + value.Date.slice(6, 8) + '.' + value.Date.slice(4, 6) + '.' + value.Date.slice(0, 4) +
 
-								", Sold to : " + value.PartnNumb + ", Material: " + value.Material + ", Quantity : " + value.TargetQty,
+								", "+ i18n.__("soldto") +" : " + value.PartnNumb + ", "+ i18n.__("material") +": " + value.Material + ", "+ i18n.__("qty") +": " + value.TargetQty,
 							"buttons": [{
 								"value": value.Salesdocument,
-								"title": "Status of Sales order : " + value.Salesdocument,
+								"title":  i18n.__("so_status", value.Salesdocument),//"Status of Sales order : " + value.Salesdocument,
 								"type": "postback"
 							}]
 						};

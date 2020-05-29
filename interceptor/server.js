@@ -13,7 +13,8 @@ const oDataRequest = require("./CustomModules/oDataRequest");
 const caiOperations = require("./CustomModules/caiOperations");
 //const axios = require('axios');
 //const xenv = require('@sap/xsenv');
-
+const i18n = require ("i18n");
+const path = require("path");
 const app = express();
 
 app.use(bodyParser.json());
@@ -28,12 +29,36 @@ const sDestNme = "JS7";
 const sEndpoint = "/sap/opu/odata/sap/ZSRV_SOCHATBOT_SRV/";
 /////////////////////////////
 
-app.get('/', function (req, res) {
-	console.log("hello");
+/////////////////////////////
 
-	pcon.GetProxy(sXsuaa, sDest, sConn, sDestNme).then(function (value) {
+// Configure the language settings for the I18n Module
+i18n.configure({
+  locales: ["en", "ja"],
+  defaultLocale: "en",
+  queryParameter: "lang",
+  directory: path.join("./", "i18n")
+});
+
+// setting conversation language usng middleware function
+
+app.use(function(req, res, next){
+	
+	if (req.body.conversation !== undefined && req.body.conversation.language !== undefined){
+		var language = req.body.conversation.language;
+		i18n.setLocale(language);
+	}
+	console.log(i18n.getLocale());
+	next();
+});
+
+//////////////////////////
+
+app.get('/', function (req, res) {
+	console.log(i18n.__("title"));
+
+/*	pcon.GetProxy(sXsuaa, sDest, sConn, sDestNme).then(function (value) {
 		console.log(value);
-	});
+	});*/
 
 	//console.log(respon + 'hii');
 	res.statusCode = 200;
@@ -46,6 +71,7 @@ app.post('/SalesorderStatus', function (req, res) {
 
 	var sDestination, sDestAuth, tokenc, phost, pport;
 	var memory = req.body.conversation.memory;
+	
 
 	pcon.GetProxy(sXsuaa, sDest, sConn, sDestNme).then(function (value) {
 		//console.log(value);
@@ -71,7 +97,7 @@ app.post('/SalesorderStatus', function (req, res) {
 		// Call oData to get the values.
 		oDataRequest.calloData(optionsJS7).then(body => {
 
-			caiOperations.formatReply(memory, 'displayso', JSON.parse(body.body)).then(reply => {
+			caiOperations.formatReply(memory, 'displayso', JSON.parse(body.body), i18n).then(reply => {
 
 				var response = JSON.stringify({
 					replies: reply,
@@ -126,7 +152,7 @@ app.post("/SalesorderList", (req, res) => {
 			console.log(optionsJS7.url);
 			oDataRequest.calloData(optionsJS7).then(body => {
 
-				caiOperations.formatReply(memory, 'displaysoset', JSON.parse(body.body)).then(reply => {
+				caiOperations.formatReply(memory, 'displaysoset', JSON.parse(body.body), i18n).then(reply => {
 
 					var response = JSON.stringify({
 						replies: reply,
@@ -201,7 +227,7 @@ app.post("/SalesorderCreate", (req, res) => {
 
 			oDataRequest.calloData(optionsJS7).then(resp => {
 
-				caiOperations.formatReply(memory, 'createso', resp.body).then(reply => {
+				caiOperations.formatReply(memory, 'createso', resp.body, i18n).then(reply => {
 
 					var response = JSON.stringify({
 						replies: reply,
@@ -229,7 +255,7 @@ app.post("/ITSM", (req, res) => {
 	var oOptions = config.options;
 
 	var oBody = {
-		short_description: "Incident created from chatbot"
+		short_description: i18n.__("inc_desc")
 	};
 	oOptions.method = "POST";
 	oOptions.json = oBody;
@@ -239,7 +265,7 @@ app.post("/ITSM", (req, res) => {
 		console.log(body.body.result.number);
 		var reply = [{
 			type: 'text',
-			content: "Incident " + body.body.result.number + " is Created in the Service Now Tool"
+			content: i18n.__("incident", body.body.result.number)//"Incident " + body.body.result.number + " is Created in the Service Now Tool"
 		}];
 		var response = JSON.stringify({
 			replies: reply,
